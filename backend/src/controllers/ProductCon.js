@@ -1,12 +1,12 @@
 const ServiceProduct = require('../services/ServiceProduct');
 const StatusHttp = require('../HTTP/StatusHttp');
 
-const getProducts1 = async (_req, res) => {
+const getProducts = async (_req, res) => {
   const { status, data } = await ServiceProduct.getProduto();
   return res.status(StatusHttp(status)).json(data);
 };
 
-const getProductsId1 = async (req, res) => {
+const getProductsId = async (req, res) => {
   const { id } = req.params;
   const { status, data } = await ServiceProduct.getProdutoID(id);
   return res.status(StatusHttp(status)).json(data);
@@ -26,8 +26,8 @@ const atualizarProduto = async (req, res) => {
 };
 
 module.exports = {
-  getProducts1,
-  getProductsId1,
+  getProducts,
+  getProductsId,
   inserirProduto,
   atualizarProduto,
 };

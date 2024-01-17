@@ -90,7 +90,7 @@ const atualizarProdutoServiceInvalid = {
 };
   
 const atualizarProdutoServiceNot = {
-  data: { message: 'message' },
+  data: { message: 'Product not found' },
   status: 'NOT_FOUND',
 };
 const atualizarProdutoServiceBad = {

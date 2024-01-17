@@ -1,12 +1,12 @@
-const { ModelPorduct } = require('../models/ModelProduct');
+const { findAll1, findId1, inserirProduto1, atualizar } = require('../models/ModelProduct');
 
 const getProduto = async () => {
-  const products = await ModelPorduct.findAll();
+  const products = await findAll1();
   return { status: 'SUCCESSFUL', data: products };
 };
   
 const getProdutoID = async (id) => {
-  const produto = await ModelPorduct.findById(id);
+  const produto = await findId1(id);
   if (!produto) return { status: 'NOT_FOUND', data: { message: 'Product not found' } };
   return { status: 'SUCCESSFUL', data: produto };
 };
@@ -19,8 +19,8 @@ const inserirProduto = async (name) => {
     return { status: 'INVALID_VALUE',
       data: { message: '"name" length must be at least 5 characters long' } };
   }
-  const id1 = await ModelPorduct.insert(name);
-  const product = await ModelPorduct.findById(id1);
+  const id1 = await inserirProduto1(name);
+  const product = await findId1(id1);
   return { status: 'CREATED', data: product };
 };
 
@@ -36,13 +36,13 @@ const atualizarProduto = async (id, name) => {
     };
   }
 
-  const productExists = await ModelPorduct.findById(id);
+  const productExists = await findId1(id);
 
   if (!productExists) {
     return { status: 'NOT_FOUND', data: { message: 'Product not found' } };
   }
 
-  await ModelPorduct.update(id, name);
+  await atualizar(id, name);
 
   return { status: 'SUCCESSFUL', data: { id: Number(id), name } };
 };
