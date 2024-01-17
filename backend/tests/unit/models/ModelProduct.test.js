@@ -1,4 +1,4 @@
- const chai = require('chai');
+const chai = require('chai');
 const sinon = require('sinon');
 const criarConexao = require('../../../src/models/criarConexao');
 const {
