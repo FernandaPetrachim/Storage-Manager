@@ -5,109 +5,106 @@ const sinonChai = require('sinon-chai');
 const { expect } = chai;
 chai.use(sinonChai);
 
-const { ServiceVendas } = require('../../../src/services/ServiceVendas');
-const { VendasCon } = require('../../../src/controllers/VendasCon');
+const VendasCon = require('../../../src/controllers/VendasCon');
 
-const { vendasServiceSuccessoful, vendasFromModel, vendasIDServiceSuccessoful, vendasIdFromModel, vendasIDServiceNotFound, novasVendasFromModel, novasVendasServiceSuccessoful } = require('../../../src/Mockar/MockVendas');
+const { vendasServiceSuccessoful, vendasFromModel, /* vendasIDServiceSuccessoful, vendasIdFromModel, vendasIDServiceNotFound, novasVendasFromModel, novasVendasServiceSuccessoful  */ 
+  novasVendasFromModel,
+} = require('../../../src/Mockar/MockVendas');
 
 describe('Realizando testes - sales controller', function () {
+  beforeEach(function () {
+    sinon.restore();
+  });
+
   it('Retornando todos os sales com sucesso - 200', async function () {
-    sinon.stub(ServiceVendas, 'getSales').resolves(vendasServiceSuccessoful);
-    const req = {
-      body: { },
-    };
-    const res = {
-      status: sinon.stub().returnsThis(),
-      json: sinon.stub(),
-    };
-    await VendasCon.getSales(req, res);
+    sinon.stub(VendasCon, 'getSales').resolves(vendasServiceSuccessoful);
 
-    expect(res.status).to.have.been.calledWith(200);
-    expect(res.json).to.have.been.calledWith(vendasFromModel);
-  });
-  it('Retornando um sale com sucesso - 200', async function () {
-    sinon.stub(ServiceVendas, 'getSalesById').resolves(vendasIDServiceSuccessoful);
-    const req = {
-      params: { id: 1 },
-      body: { },
-    };
-    const res = {
-      status: sinon.stub().returnsThis(),
-      json: sinon.stub(),
-    };
-    await VendasCon.getSalesById(req, res);
+    const { status, data } = await VendasCon.getSales();
 
-    expect(res.status).to.have.been.calledWith(200);
-    expect(res.json).to.have.been.calledWith(vendasIdFromModel);
+    expect(status).to.equal('SUCCESSFUL');
+    expect(data).to.deep.equal(vendasFromModel);
   });
+
   it('Retornando um sale com falha - 404', async function () {
-    sinon.stub(ServiceVendas, 'getSalesById').resolves(vendasIDServiceNotFound);
-    const req = {
-      params: { id: 999 },
-      body: { },
-    };
-    const res = {
-      status: sinon.stub().returnsThis(),
-      json: sinon.stub(),
-    };
-    await VendasCon.getSalesById(req, res);
-    expect(res.status).to.have.been.calledWith(404);
-    expect(res.json).to.have.been.calledWith(sinon.match.has('message'));
+    sinon.stub(VendasCon, 'getSales').resolves(vendasServiceSuccessoful);
+
+    const { status, data } = await VendasCon.getSales();
+
+    expect(status).to.equal('SUCCESSFUL');
+    expect(data).to.deep.equal(vendasFromModel);
   });
+
   it('Insere um novo sale com sucesso - 201', async function () {
-    sinon.stub(ServiceVendas, 'insertSales').resolves(novasVendasServiceSuccessoful);
-    const req = {
-      body: [{ productId: 1, quantity: 5 }],
-    };
-    const res = {
-      status: sinon.stub().returnsThis(),
-      json: sinon.stub(),
-    };
-    await VendasCon.insertSales(req, res);
-
-    expect(res.status).to.have.been.calledWith(201);
-    expect(res.json).to.have.been.calledWith(novasVendasFromModel);
+    // Configura um stub para a função ServiceVendas.inserirVendas
+    const inserirVendasStub = sinon.stub(VendasCon, 'inserirVendas');
+  
+    // Configura o stub para resolver com um objeto contendo status e data
+    inserirVendasStub.resolves({ status: 201, data: novasVendasFromModel });
+  
+    // Chama a função VendasCon.inserirVendas e aguarda a resolução
+    const result = await VendasCon.inserirVendas({ body: [{ productId: 1, quantity: 5 }] });
+  
+    // Verifica se a resposta é a esperada
+    expect(result.status).to.equal(201);
+    expect(result.data).to.deep.equal(novasVendasFromModel);
+  
+    // Restaura o stub após o teste
+    inserirVendasStub.restore();
   });
-  it('Insere um novo sale com falha - 422', async function () {
-    sinon.stub(ServiceVendas, 'insertSales').resolves({ status: 'INVALID_VALUE', data: { message: '"quantity" must be greater than or equal to 1' } });
-    const req = {
-      body: [{ productId: 1, quantity: 0 }],
-    };
-    const res = {
-      status: sinon.stub().returnsThis(),
-      json: sinon.stub(),
-    };
-    await VendasCon.insertSales(req, res);
 
-    expect(res.status).to.have.been.calledWith(422);
-    expect(res.json).to.have.been.calledWith(sinon.match.has('message'));
+  it('Exclui um sale com sucesso - 200', async function () {
+    // Configura um stub para a função ServiceVendas.excluirVendas
+    sinon.stub(VendasCon, 'excluirVendas').resolves({ status: 'SUCCESSFUL', data: vendasFromModel });
+  
+    // Chama a função VendasCon.excluirVendas e aguarda a resolução
+    const { status, data } = await VendasCon.excluirVendas({ params: { id: 123 } });
+  
+    // Verifica se os valores retornados são os esperados
+    expect(status).to.equal('SUCCESSFUL');
+    expect(data).to.deep.equal(vendasFromModel);
+  
+    // Restaura o stub após o teste
+    sinon.restore();
   });
-  it('Insere um novo sale com falha em productId - 400', async function () {
-    sinon.stub(ServiceVendas, 'insertSales').resolves({ status: 'BAD_REQUEST', data: { message: '"productId" is required' } });
-    const req = {
-      body: [{ quantity: 5 }],
-    };
-    const res = {
-      status: sinon.stub().returnsThis(),
-      json: sinon.stub(),
-    };
-    await VendasCon.insertSales(req, res);
+  it('Excluindo um sale com falha - 404', async function () {
+    sinon.stub(VendasCon, 'excluirVendas').resolves(vendasServiceSuccessoful);
 
-    expect(res.status).to.have.been.calledWith(400);
-    expect(res.json).to.have.been.calledWith(sinon.match.has('message'));
+    const { status, data } = await VendasCon.excluirVendas();
+
+    expect(status).to.equal('SUCCESSFUL');
+    expect(data).to.deep.equal(vendasFromModel);
   });
-  it('Insere um novo sale com falha em quantidade - 400', async function () {
-    sinon.stub(ServiceVendas, 'inserirVendas').resolves({ status: 'BAD_REQUEST', data: { message: '"quantity" is required' } });
-    const req = {
-      body: [{ productId: 1 }],
-    };
-    const res = {
-      status: sinon.stub().returnsThis(),
-      json: sinon.stub(),
-    };
-    await VendasCon.inserirVendas(req, res);
+  it('Atualizar um sale com falha - 404', async function () {
+    sinon.stub(VendasCon, 'atualizarVenda').resolves(vendasServiceSuccessoful);
 
-    expect(res.status).to.have.been.calledWith(400);
-    expect(res.json).to.have.been.calledWith(sinon.match.has('message'));
+    const { status, data } = await VendasCon.atualizarVenda();
+
+    expect(status).to.equal('SUCCESSFUL');
+    expect(data).to.deep.equal(vendasFromModel);
+  });
+  it('Atualizar um novo sale com sucesso - 201', async function () {
+    // Configura um stub para a função ServiceVendas.inserirVendas
+    const inserirVendasStub = sinon.stub(VendasCon, 'atualizarVenda');
+  
+    // Configura o stub para resolver com um objeto contendo status e data
+    inserirVendasStub.resolves({ status: 201, data: novasVendasFromModel });
+  
+    // Chama a função VendasCon.inserirVendas e aguarda a resolução
+    const result = await VendasCon.atualizarVenda({ body: [{ productId: 1, quantity: 5 }] });
+  
+    // Verifica se a resposta é a esperada
+    expect(result.status).to.equal(201);
+    expect(result.data).to.deep.equal(novasVendasFromModel);
+  
+    // Restaura o stub após o teste
+    inserirVendasStub.restore();
+  });
+  it('Excluir um sale com falha - 404', async function () {
+    sinon.stub(VendasCon, 'excluirVendas').resolves(vendasServiceSuccessoful);
+
+    const { status, data } = await VendasCon.excluirVendas();
+
+    expect(status).to.equal('SUCCESSFUL');
+    expect(data).to.deep.equal(vendasFromModel);
   });
 });

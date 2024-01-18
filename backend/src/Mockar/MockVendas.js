@@ -81,7 +81,10 @@ const vendasIDServiceNotFound = {
 const novasVendasFromDB = {
   insertId: 4,
 };
-
+const inserieVendasMock = {
+  status: '201',
+  data: { message: 'message' },
+};
 const novasVendasFromModel = {
   id: 4,
   itemsSold: [
@@ -122,4 +125,5 @@ module.exports = {
   novasVendasServiceSuccessoful,
   delVendasFromDB,
   atualizarVenda,
+  inserieVendasMock,
 };
