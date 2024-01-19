@@ -6,7 +6,7 @@ const getVendas = async () => {
   return { status: 'SUCCESSFUL', data: sales };
 };
 const getVendasById = async (id) => {
-  const sale = await ModelVendas.findIdModel(id);
+  const sale = await ModelVendas.findIdModel1(id);
   if (sale.length === 0) return { status: 'NOT_FOUND', data: { message: 'Sale not found' } };
   return { status: 'SUCCESSFUL', data: sale };
 };
@@ -36,15 +36,15 @@ const excluirVendas = async (id) => {
   return { status: 'NO_CONTENT' };
 };
 
-const atualizarVendas = async (vendaId, produtoId, quantidade) => {
-  const sale = await ModelVendas.findByIdVendas(vendaId);
+const atualizarVendas = async (saleId, produtoId, quantidade) => {
+  const sale = await ModelVendas.findByIdVendas(saleId);
   if (sale.length === 0) return { status: 'NOT_FOUND', data: { message: 'Sale not found' } };
-  const product = await ModelVendas.findByIdProductSales(produtoId);
+  const product = await ModelVendas.findByIdProductVendas(produtoId);
   if (product.length === 0) {
     return { status: 'NOT_FOUND', data: { message: 'Product not found in sale' } };
   }
-  await ModelVendas.atualizarVendas(vendaId, produtoId, quantidade);
-  const [data] = await ModelVendas.findByIdProductAndSales(vendaId, produtoId);
+  await ModelVendas.atualizarVendas(saleId, produtoId, quantidade);
+  const [data] = await ModelVendas.findByIdProductVendas(saleId, produtoId);
   return { status: 'SUCCESSFUL',
     data };
 };

@@ -1,8 +1,8 @@
-const { ServiceVendas } = require('../services/ServiceVendas');
+const ServiceVendas = require('../services/ServiceVendas');
 const StatusHttp = require('../HTTP/StatusHttp');
 
 const getSales = async (_req, res) => {
-  const { status, data } = await ServiceVendas.getVendas();
+  const { status, data } = await ServiceVendas.getVendas();// STUB SUBSTITUIT NO LOCAL
   return res.status(StatusHttp(status)).json(data);
 };
 const getSalesById = async (req, res) => {
@@ -24,9 +24,9 @@ const excluirVendas = async (req, res) => {
 };
 
 const atualizarVenda = async (req, res) => {
-  const { quantidade } = req.body;
-  const { vendaId, produtotId } = req.params;
-  const { status, data } = await ServiceVendas.updateSale(vendaId, produtotId, quantidade);
+  const { quantity } = req.body;
+  const { saleId, productId } = req.params;
+  const { status, data } = await ServiceVendas.atualizarVendas(saleId, productId, quantity);
   return res.status(StatusHttp(status)).json(data);
 };
 

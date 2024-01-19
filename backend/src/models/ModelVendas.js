@@ -69,7 +69,7 @@ const excluirVendas = async (id) => {
   return sales;
 };
 
-const atualizarVenda = async (vendaId, produtoId, quantidade) => {
+const atualizarVendas = async (vendaId, produtoId, quantidade) => {
   const [sales] = await criarConexao.execute(
     'UPDATE sales_products SET quantity = ? WHERE sale_id = ? AND product_id = ?',
     [quantidade, vendaId, produtoId],
@@ -86,5 +86,5 @@ module.exports = {
   inserirVendasProduto,
   findByIdProductAndVendas,
   excluirVendas,
-  atualizarVenda,
+  atualizarVendas,
 };

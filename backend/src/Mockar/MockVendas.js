@@ -30,7 +30,7 @@ const vendasFromModel = [
     saleId: 1,
     date,
     productId: 2,
-    quantity: 10,
+    quantity: 2,
   },
   {
     saleId: 2,
