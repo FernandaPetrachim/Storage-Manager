@@ -3,7 +3,7 @@ const ModelVendas = require('../models/ModelVendas');
 
 const getVendas = async () => {
   const sales = await ModelVendas.findModel1();
-  return { status: 'SUCCESSFUL', data: sales };
+  return { status: 'SUCCESSFUL', data: sales }; // ok
 };
 const getVendasById = async (id) => {
   const sale = await ModelVendas.findIdModel1(id);

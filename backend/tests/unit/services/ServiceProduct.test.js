@@ -3,7 +3,6 @@ const { expect } = require('chai');
 const ServiceVendas = require('../../../src/services/ServiceVendas');
 const {
   vendasFromModel,
-  vendasServiceSuccessoful,
 } = require('../../../src/Mockar/MockVendas');
 const ModelProduct = require('../../../src/models/ModelProduct');
 const {
@@ -11,13 +10,14 @@ const {
   produtoIdFromDB,
 } = require('../../../src/Mockar/MockProduct');
 const ServiceProduct = require('../../../src/services/ServiceProduct');
+const ModelVendas = require('../../../src/models/ModelVendas');
 
 describe('Realizando os testes - sales service', function () {
   afterEach(function () {
     sinon.restore();
   });
   it('Retornando todos os sales com sucesso', async function () {
-    sinon.stub(ServiceVendas, 'getVendas').resolves(vendasServiceSuccessoful);
+    sinon.stub(ModelVendas, 'findModel1').resolves(vendasFromModel);
 
     const { status, data } = await ServiceVendas.getVendas();
 
