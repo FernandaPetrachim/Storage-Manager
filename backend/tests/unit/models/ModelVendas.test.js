@@ -107,7 +107,7 @@ describe('Sales Model', function () {
     assert(Array.isArray(sales), 'sales deve ser um array');
     assert.strictEqual(sales.length, 0, 'sales deve ser um array vazio');
   });
- /*  it('deve chamar ServiceVendas.excluirVendas corretamente e retornar resposta JSON', async function () {
+  /*  it('deve chamar ServiceVendas.excluirVendas corretamente e retornar resposta JSON', async function () {
     // Crie um objeto de exemplo para simular a resposta de ServiceVendas.excluirVendas
     sinon.stub(ModelVenda, 'getProduto').resolves({ status: 'SUCESSO', data: { mensagem: 'Venda excluída com sucesso' } });
     
