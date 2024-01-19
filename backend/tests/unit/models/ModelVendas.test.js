@@ -3,7 +3,6 @@ const sinon = require('sinon');
 const criarConexao = require('../../../src/models/criarConexao');
 const ModelVenda = require('../../../src/models/ModelVendas');
 const vendasFromDB1 = require('../../../src/Mockar/MockVendas');
-const statusHttp = require('../../../src/HTTP/StatusHttp');
 
 describe('Sales Model', function () {
   it('Recuperando todos os sales com sucesso', async function () {
