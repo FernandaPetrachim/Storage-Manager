@@ -9,7 +9,6 @@ const ModelProduct = require('../../../src/models/ModelProduct');
 const {
   productIdFromModel,
   produtoIdFromDB,
-  novoProdutoFrom,
 } = require('../../../src/Mockar/MockProduct');
 const ServiceProduct = require('../../../src/services/ServiceProduct');
 
@@ -48,7 +47,7 @@ describe('Realizando os testes - sales service', function () {
 
     expect(product.status).to.equal('NOT_FOUND');
   });
- /*  it('Insere um novo produto com sucesso', async function () {
+  /*  it('Insere um novo produto com sucesso', async function () {
     sinon.stub(ModelProduct, 'inserirProduto1').resolves(novoProdutoFrom);
     sinon.stub(ModelProduct, 'findId1').resolves(novoProdutoFrom);
 
