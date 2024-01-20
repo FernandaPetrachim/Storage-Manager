@@ -18,7 +18,7 @@ const findIdModel1 = async (id) => {
   WHERE s.id = ?
   ORDER BY sp.product_id ASC;`, [id]);
   return sales;
-};
+}; 
 
 const inserirVendas = async () => {
   const [sales] = await criarConexao.execute('INSERT INTO sales VALUES ()');

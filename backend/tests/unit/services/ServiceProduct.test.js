@@ -6,7 +6,7 @@ const {
 } = require('../../../src/Mockar/MockVendas');
 const ModelProduct = require('../../../src/models/ModelProduct');
 const {
-  produtoIdFromDB,
+  produtoIdFromDB, 
 } = require('../../../src/Mockar/MockProduct');
 const ServiceProduct = require('../../../src/services/ServiceProduct');
 const ModelVendas = require('../../../src/models/ModelVendas');
@@ -43,18 +43,13 @@ describe('Realizando os testes - sales service', function () {
     sinon.stub(ModelProduct, 'inserirProduto1').resolves(novoProdutoFrom);
     sinon.stub(ModelProduct, 'findId1').resolves(novoProdutoFrom);
 
-    const req = {};
-    const res = {
-      status: sinon.stub().returnsThis(),
-      json: sinon.stub(),
-    };
-  
     const inputData = 'ProdutoX';
-    await ServiceProduct.inserirProduto(inputData, res, req);
-    sinon.assert.calledWith(res.status, 'CREATED');
-    expect(res.status).calledWith('CREATED');
+    await ServiceProduct.inserirProduto(inputData);
+    sinon.assert.calledWith(status, 'CREATED');
+    expect(res.status).to.be.equal('CREATED');
     expect(res.json).to.be.deep.equal(novoProdutoFrom);
     // Restaurar os stubs após o teste
     sinon.InserirProduto.restore();
-    sinon.FindId.restore(); */
+    sinon.FindId.restore();
+  }); */
 });

@@ -17,12 +17,18 @@ describe('Sales Model', function () {
     criarConexao.execute.restore();
   });
   it('Recuperando sales por id com sucesso', async function () {
-    sinon.stub(criarConexao, 'execute').resolves([vendasFromDB1[2]]);
-   
+    const date = '2021-09-09T04:54:29.000Z';
+    const mock1 = {
+      saleId: 2,
+      date,
+      productId: 3,
+      quantity: 15,
+    };
+    sinon.stub(criarConexao, 'execute').resolves([mock1]);
     const result = await ModelVenda.findIdModel1(2);
-  
-    expect(result).to.be.deep.equal(vendasFromDB1[2]);
-  
+    console.log(mock1);
+    expect(result).to.be.deep.equal(mock1);
+    expect(result).to.be.deep.not.equal(undefined);
     criarConexao.execute.restore();
   });   
   /*  it('Inserindo sales com sucesso', async function () {
@@ -42,29 +48,23 @@ describe('Sales Model', function () {
   
     criarConexao.execute.restore();
   }); */
-  /* it('Inserindo salesProducts com sucesso', async function () {
-    sinon.stub(criarConexao, 'execute').resolves([vendasFromDB1.vendasIDServiceSuccessoful]);
-   
+  it('Inserindo salesProducts com sucesso', async function () {
+    const mock2 = 1;
+      
+    sinon.stub(criarConexao, 'execute').resolves([{ insertId: mock2 }]);
     const result = await ModelVenda.inserirVendasProduto(4, 1, 5);
   
-    expect(result).to.be.deep.equal(201);
-  
-    expect(result).to.be.deep.equal(4);
+    expect(result).to.be.deep.equal(mock2);
   
     criarConexao.execute.restore();
-  }); */
+  });
   it('Deletando sales com sucesso', async function () {
     sinon.stub(criarConexao, 'execute').resolves([vendasFromDB1.delVendasFromDB]);
-    const req = {};
-    const res = {
-      status: sinon.stub().returnsThis(),
-      json: sinon.stub(),
-    };
-  
-    await ModelVenda.excluirVendas(1, req, res);
+    const id = 1;
+    const result = await ModelVenda.excluirVendas(id);
   
     // Verifique se res.json foi chamado com argumentos equivalentes
-    expect(res.json.calledWith(sinon.match(vendasFromDB1.delVendasFromDB)));
+    expect(result).to.be.equal(vendasFromDB1.delVendasFromDB);
   
     criarConexao.execute.restore();
   });

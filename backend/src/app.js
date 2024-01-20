@@ -1,5 +1,6 @@
 const express = require('express');
 const RouteProduct = require('./Routes/RouteProduct');
+const RouteVendas = require('./Routes/RouteVendas');
 
 const app = express();
 
@@ -10,6 +11,7 @@ app.get('/', (_request, response) => {
 
 app.use(express.json());
 app.use('/products', RouteProduct);
+app.use('/sales', RouteVendas);
 
 // Inicie o servidor
 /* const PORT = process.env.PORT || 3001;
