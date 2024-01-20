@@ -1,21 +1,17 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
-const ServiceVendas = require('../../../src/services/ServiceVendas');
-const {
-  vendasFromModel,
-} = require('../../../src/Mockar/MockVendas');
+
 const ModelProduct = require('../../../src/models/ModelProduct');
 const {
-  produtoIdFromDB, 
+  produtoIdFromDB, novoProdutoFrom, newProdutoFromModel, atualizarFromModelProduto, 
 } = require('../../../src/Mockar/MockProduct');
 const ServiceProduct = require('../../../src/services/ServiceProduct');
-const ModelVendas = require('../../../src/models/ModelVendas');
 
-describe('Realizando os testes - sales service', function () {
+describe('Realizando testes - product service', function () {
   afterEach(function () {
     sinon.restore();
   });
-
+  
   it('deve lançar um erro quando o produto não existe', async function () {
     const stub = sinon.stub(ModelProduct, 'atualizar').throws(new Error('Produto não encontrado'));
   
@@ -29,14 +25,6 @@ describe('Realizando os testes - sales service', function () {
     }
   });
   
-  it('Retornando todos os sales com sucesso', async function () {
-    sinon.stub(ModelVendas, 'findModel1').resolves(vendasFromModel);
-
-    const { status, data } = await ServiceVendas.getVendas();
-
-    expect(status).to.equal('SUCCESSFUL');
-    expect(data).to.deep.equal(vendasFromModel);
-  }); 
   it('Retorna produto com ID existente', async function () {
     sinon.stub(ModelProduct, 'findId1').resolves(produtoIdFromDB);
     const id = 1;
@@ -53,17 +41,64 @@ describe('Realizando os testes - sales service', function () {
 
     expect(product.status).to.equal('NOT_FOUND');
   });
-  /*  it('Insere um novo produto com sucesso', async function () {
+  it('Insere um novo produto com sucesso', async function () {
     sinon.stub(ModelProduct, 'inserirProduto1').resolves(novoProdutoFrom);
-    sinon.stub(ModelProduct, 'findId1').resolves(novoProdutoFrom);
+    sinon.stub(ModelProduct, 'findId1').resolves(newProdutoFromModel);
 
     const inputData = 'ProdutoX';
-    await ServiceProduct.inserirProduto(inputData);
-    sinon.assert.calledWith(status, 'CREATED');
-    expect(res.status).to.be.equal('CREATED');
-    expect(res.json).to.be.deep.equal(novoProdutoFrom);
-    // Restaurar os stubs após o teste
-    sinon.InserirProduto.restore();
-    sinon.FindId.restore();
-  }); */
+    const product = await ServiceProduct.inserirProduto(inputData);
+
+    expect(product.status).to.equal('CREATED');
+    expect(product.data).to.be.deep.equal(newProdutoFromModel);
+  });
+  it('Testa o retorno quando o name tem menos de 5 caracteres', async function () {
+    sinon.stub(ModelProduct, 'inserirProduto1').resolves(novoProdutoFrom);
+    sinon.stub(ModelProduct, 'findId1').resolves(newProdutoFromModel);
+
+    const inputData = 'Prod';
+    const product = await ServiceProduct.inserirProduto(inputData);
+
+    expect(product.status).to.equal('INVALID_VALUE');
+    expect(product.data.message).to.equal('"name" length must be at least 5 characters long');
+  });
+  it('Testa o retorno quando o name for undefined', async function () {
+    sinon.stub(ModelProduct, 'inserirProduto1').resolves(novoProdutoFrom);
+    sinon.stub(ModelProduct, 'findId1').resolves(newProdutoFromModel);
+
+    const inputData = '';
+    const product = await ServiceProduct.inserirProduto(inputData);
+
+    expect(product.status).to.equal('BAD_REQUEST');
+    expect(product.data.message).to.equal('"name" is required');
+  });
+  it('Atualiza um produto com sucesso', async function () {
+    sinon.stub(ModelProduct, 'findId1').resolves(produtoIdFromDB);
+    sinon.stub(ModelProduct, 'atualizar').resolves(atualizarFromModelProduto);
+
+    const inputData = { id: 1, name: 'ProdutoX' };
+    const product = await ServiceProduct.atualizarProduto(inputData.id, inputData.name);
+
+    expect(product.status).to.equal('SUCCESSFUL');
+    expect(product.data).to.be.deep.equal(atualizarFromModelProduto);
+  });
+  it('Não atualiza quando o name tem menos de 5 caracteres', async function () {
+    sinon.stub(ModelProduct, 'findId1').resolves(produtoIdFromDB);
+    sinon.stub(ModelProduct, 'atualizar').resolves(atualizarFromModelProduto);
+
+    const inputData = { id: 1, name: 'Prod' };
+    const product = await ServiceProduct.atualizarProduto(inputData.id, inputData.name);
+
+    expect(product.status).to.equal('INVALID_VALUE');
+    expect(product.data.message).to.equal('"name" length must be at least 5 characters long');
+  });
+  it('Não atualiza quando o name for undefined', async function () {
+    sinon.stub(ModelProduct, 'findId1').resolves(produtoIdFromDB);
+    sinon.stub(ModelProduct, 'atualizar').resolves(atualizarFromModelProduto);
+
+    const inputData = { id: 1, name: '' };
+    const product = await ServiceProduct.atualizarProduto(inputData.id, inputData.name);
+
+    expect(product.status).to.equal('BAD_REQUEST');
+    expect(product.data.message).to.equal('"name" is required');
+  });
 });
