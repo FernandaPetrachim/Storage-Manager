@@ -81,6 +81,8 @@ describe('Sales Model', function () {
   });
 
   it('deve retornar um array vazio quando o produto não é encontrado', async function () {
+    const mock = [];
+    sinon.stub(criarConexao, 'execute').resolves([mock]);
     const productId = 999; // Substitua por um ID que não existe
 
     const sales = await ModelVenda.findByIdProductVendas(productId);

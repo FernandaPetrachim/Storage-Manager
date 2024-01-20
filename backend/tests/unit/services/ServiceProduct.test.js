@@ -6,7 +6,6 @@ const {
 } = require('../../../src/Mockar/MockVendas');
 const ModelProduct = require('../../../src/models/ModelProduct');
 const {
-  productIdFromModel,
   produtoIdFromDB,
 } = require('../../../src/Mockar/MockProduct');
 const ServiceProduct = require('../../../src/services/ServiceProduct');
@@ -26,21 +25,14 @@ describe('Realizando os testes - sales service', function () {
   }); 
   it('Retorna produto com ID existente', async function () {
     sinon.stub(ModelProduct, 'findId1').resolves(produtoIdFromDB);
+    const id = 1;
+    const { data, status } = await ServiceProduct.getProdutoID(id);
   
-    const req = {};
-    const res = {
-      status: sinon.stub().returnsThis(),
-      json: sinon.stub(),
-    };
-  
-    const inputData = 1;
-    await ServiceProduct.getProdutoID(inputData, req, res);
-  
-    expect(res.status.calledWith('SUCCESSFUL'));
-    expect(res.json.calledWith(productIdFromModel));
+    expect(status).to.be.equal('SUCCESSFUL');
+    expect(data).to.be.deep.equal({ id: 1, name: 'Martelo de Thor' });
   });
   it('Não retorna produto com ID inexistente', async function () {
-    sinon.stub(ServiceVendas, 'getVendasById').resolves(undefined);
+    sinon.stub(ModelProduct, 'findId1').resolves(undefined);
 
     const inputData = 999;
     const product = await ServiceProduct.getProdutoID(inputData);
