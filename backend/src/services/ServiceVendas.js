@@ -13,7 +13,7 @@ const getVendasById = async (id) => {
 
 const inserirVendas = async (itemsSold) => {
   const data = itemsSold.map(async ({ productId }) => {
-    const insertId = await ModelProduct.findById(productId);
+    const insertId = await ModelProduct.findId1(productId);
     if (!insertId) {
       return { status: 'NOT_FOUND', data: { message: 'Product not found' } };
     }
@@ -32,7 +32,7 @@ const inserirVendas = async (itemsSold) => {
 const excluirVendas = async (id) => {
   const sale = await ModelVendas.findByIdVendas(id);
   if (sale.length === 0) return { status: 'NOT_FOUND', data: { message: 'Sale not found' } };
-  await ModelVendas.deleteSale(id);
+  await ModelVendas.excluirVendas(id);
   return { status: 'NO_CONTENT' };
 };
 

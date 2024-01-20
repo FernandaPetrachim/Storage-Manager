@@ -15,6 +15,20 @@ describe('Realizando os testes - sales service', function () {
   afterEach(function () {
     sinon.restore();
   });
+
+  it('deve lançar um erro quando o produto não existe', async function () {
+    const stub = sinon.stub(ModelProduct, 'atualizar').throws(new Error('Produto não encontrado'));
+  
+    try {
+      await ServiceProduct.atualizarProduto(1, 'Cruzeirão Cabuloso');
+    } catch (error) {
+      expect(error).to.be.an('error');
+      expect(error.message).to.equal('Produto não encontrado');
+    } finally {
+      stub.restore();
+    }
+  });
+  
   it('Retornando todos os sales com sucesso', async function () {
     sinon.stub(ModelVendas, 'findModel1').resolves(vendasFromModel);
 

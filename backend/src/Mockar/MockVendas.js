@@ -10,7 +10,7 @@ const vendasFromDB1 = [
     saleId: 1,
     date,
     productId: 2,
-    quantity: 10,
+    quantity: 2,
   },
   {
     saleId: 2,
@@ -86,7 +86,7 @@ const inserieVendasMock = {
   data: { message: 'message' },
 };
 const novasVendasFromModel = {
-  id: 4,
+  idVenda: 4,
   itemsSold: [
     {
       productId: 1,
