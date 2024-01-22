@@ -8,6 +8,6 @@ RouteVendas.get('/', VendasCon.getSales);
 RouteVendas.get('/:id', VendasCon.getSalesById);
 RouteVendas.post('/', validadacaoVendas, VendasCon.inserirVendas);
 RouteVendas.delete('/:id', VendasCon.excluirVendas);
-/* RouteVendas.put('/:vendaId/produto/:produtoId', validacaoVendasProduct, VendasCon.atualizarVenda); */
+/* RouteVendas.put('/:vendaId/produto/:produtoId', validacaoVendasProduct, VendasCon.atualizarVenda); .. */
 
 module.exports = RouteVendas;
