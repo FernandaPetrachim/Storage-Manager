@@ -23,10 +23,13 @@ const inserirVendas = async (itemsSold) => {
   const dataResult1 = await Promise.all(data);
   if (dataResult1.find((item) => !(!item))) return dataResult1.find((item) => !(!item));
 
-  const idVenda = await ModelVendas.inserirVendas();
-  await itemsSold.map(async ({ produtotId, quantidade }) =>
-    ModelVendas.insertSaleProduct(idVenda, produtotId, quantidade));
-  return { status: 'CREATED', data: { idVenda, itemsSold } };
+  const id = await ModelVendas.inserirVendas();
+  console.log(id);
+  const itemsSoldPromisses = itemsSold 
+    .map(async ({ productId, quantity }) => ModelVendas
+      .inserirVendasProduto(id, productId, quantity));
+  await Promise.all(itemsSoldPromisses);
+  return { status: 'CREATED', data: { id, itemsSold } };
 };
 
 const excluirVendas = async (id) => {

@@ -28,6 +28,7 @@ const inserirVendas = async () => {
 };
 
 const inserirVendasProduto = async (saleId, productId, quantity) => {
+  console.log(saleId, productId, quantity);
   const [sales] = await criarConexao.execute(
     'INSERT INTO sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
     [saleId, productId, quantity],

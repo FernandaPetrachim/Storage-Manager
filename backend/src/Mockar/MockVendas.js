@@ -86,7 +86,7 @@ const inserieVendasMock = {
   data: { message: 'message' },
 };
 const novasVendasFromModel = {
-  idVenda: 4,
+  id: 4,
   itemsSold: [
     {
       productId: 1,
