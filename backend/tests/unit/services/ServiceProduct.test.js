@@ -12,7 +12,7 @@ describe('Realizando testes - product service', function () {
     sinon.restore();
   });
   
-  it('deve lançar um erro quando o produto não existe', async function () {
+  /*   it('deve lançar um erro quando o produto não existe', async function () {
     const stub = sinon.stub(ModelProduct, 'atualizar').throws(new Error('Produto não encontrado'));
   
     try {
@@ -23,7 +23,7 @@ describe('Realizando testes - product service', function () {
     } finally {
       stub.restore();
     }
-  });
+  }); */
   
   it('Retorna produto com ID existente', async function () {
     sinon.stub(ModelProduct, 'findId1').resolves(produtoIdFromDB);

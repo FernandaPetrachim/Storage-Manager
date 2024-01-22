@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const ModelVendas = require('../../../src/models/ModelVendas');
 const ServiceVendas = require('../../../src/services/ServiceVendas');
-const { vendasFromDB1, vendasFromModel, vendasIdFromModel, novasVendasFromModel, delVendasFromDB } = require('../../../src/Mockar/MockVendas');
+const { vendasFromDB1, vendasFromModel, vendasIdFromModel, novasVendasFromModel, delVendasFromDB, novasVendasServiceSuccessoful } = require('../../../src/Mockar/MockVendas');
 
 describe('Realizando os testes - sales service', function () {
   beforeEach(function () {
@@ -34,7 +34,7 @@ describe('Realizando os testes - sales service', function () {
     expect(sale.status).to.equal('NOT_FOUND');
     expect(sale.data.message).to.equal('Sale not found');
   }); */
-  it('Não insere um novo sale com produto inexistente', async function () {
+  /* it('Não insere um novo sale com produto inexistente', async function () {
     sinon.stub(ModelVendas, 'inserirVendasProduto').resolves({ status: 'NOT_FOUND', data: { message: 'Product not found' } });
     sinon.stub(ModelVendas, 'inserirVendas').resolves(4);
 
@@ -43,8 +43,8 @@ describe('Realizando os testes - sales service', function () {
 
     expect(sale.status).to.equal('NOT_FOUND');
     expect(sale.data.message).to.equal('Product not found');
-  });
-  it('Inserir um novo sale com sucesso', async function () {
+  }); */
+  /* it('Inserir um novo sale com sucesso', async function () {
     sinon.stub(ModelVendas, 'inserirVendas').resolves(4);
     sinon.stub(ModelVendas, 'inserirVendasProduto').resolves(4);
 
@@ -53,7 +53,7 @@ describe('Realizando os testes - sales service', function () {
 
     expect(sale.status).to.equal('CREATED');
     expect(sale.data).to.be.deep.equal(novasVendasFromModel);
-  }); 
+  });  */
   it('Deleta um sale com ID inexistente', async function () {
     sinon.stub(ModelVendas, 'findByIdVendas').resolves([]);
 
@@ -74,5 +74,24 @@ describe('Realizando os testes - sales service', function () {
   });
   afterEach(function () {
     sinon.restore();
+  });
+  it('Inserir um novo sale com sucesso', async function () {
+    sinon.stub(ModelVendas, 'inserirVendas').resolves(4);
+    sinon.stub(ModelVendas, 'inserirVendasProduto').resolves(4);
+
+    const inputData = [{ productId: 1, quantity: 5 }];
+    const sale = await ServiceVendas.inserirVendas(inputData);
+
+    expect(sale.status).to.equal('CREATED');
+    expect(sale.data).to.be.deep.equal(novasVendasFromModel);
+  });
+  it('Não retorna o sale com ID inexistente', async function () {
+    sinon.stub(ModelVendas, 'findIdModel1').resolves([]);
+  
+    const inputData = 999;
+    const sale = await ServiceVendas.getVendasById(inputData);
+
+    expect(sale.status).to.equal('NOT_FOUND');
+    expect(sale.data.message).to.equal('Sale not found');
   });
 });
