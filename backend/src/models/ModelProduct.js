@@ -26,8 +26,17 @@ const atualizar = async (id, name) => {
   return product;
 };
 const deleteProduto = async (id) => {
-  const [product] = await criarConexao.execute('DELETE FROM products WHERE id = ?', [id]);
-  return product;
+  try {
+    const [result] = await criarConexao.execute('DELETE FROM products WHERE id = ?', [id]);
+    if (result.affectedRows > 0) {
+      // Produto excluído com sucesso
+      return { success: true, message: 'Produto excluído com sucesso' };
+    } 
+    return { success: false, message: 'Nenhum produto encontrado com o ID fornecido' };
+  } catch (error) {
+    console.error('Erro ao excluir produto:', error);
+    return { success: false, message: 'Erro ao excluir produto' };
+  }
 };
 
 module.exports = {
