@@ -7,6 +7,6 @@ RouteProduct.get('/', productCon.getProducts);
 RouteProduct.get('/:id', productCon.getProductsId);
 RouteProduct.post('/', productCon.inserirProduto);
 RouteProduct.put('/:id', productCon.atualizarProduto);
-/* RouteProduct.delete('/:id', productCon.excluirProduto); */
+RouteProduct.delete('/:id', productCon.deleteProduto);
 
 module.exports = RouteProduct;

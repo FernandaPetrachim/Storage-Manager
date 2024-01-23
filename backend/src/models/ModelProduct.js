@@ -25,10 +25,15 @@ const atualizar = async (id, name) => {
 
   return product;
 };
+const deleteProduto = async (id) => {
+  const [product] = await criarConexao.execute('DELETE FROM products WHERE id = ?', [id]);
+  return product;
+};
 
 module.exports = {
   findId1,
   findAll1,
   inserirProduto1,
   atualizar,
+  deleteProduto,
 };

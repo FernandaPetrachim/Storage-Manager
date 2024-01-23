@@ -12,19 +12,6 @@ describe('Realizando testes - product service', function () {
     sinon.restore();
   });
   
-  /*   it('deve lançar um erro quando o produto não existe', async function () {
-    const stub = sinon.stub(ModelProduct, 'atualizar').throws(new Error('Produto não encontrado'));
-  
-    try {
-      await ServiceProduct.atualizarProduto(1, 'Cruzeirão Cabuloso');
-    } catch (error) {
-      expect(error).to.be.an('error');
-      expect(error.message).to.equal('Produto não encontrado');
-    } finally {
-      stub.restore();
-    }
-  }); */
-  
   it('Retorna produto com ID existente', async function () {
     sinon.stub(ModelProduct, 'findId1').resolves(produtoIdFromDB);
     const id = 1;

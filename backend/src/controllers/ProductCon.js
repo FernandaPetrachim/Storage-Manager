@@ -24,10 +24,18 @@ const atualizarProduto = async (req, res) => {
   const { status, data } = await ServiceProduct.atualizarProduto(id, name);
   return res.status(StatusHttp(status)).json(data);
 };
+const deleteProduto = async (req, res) => {
+  const { id } = req.params;
+  const { status, data } = await ServiceProduct.deleteProduto(id);
+    
+  const httpStatus = StatusHttp(status);
 
+  return res.status(httpStatus).json(data);
+};
 module.exports = {
   getProducts,
   getProductsId,
   inserirProduto,
   atualizarProduto,
+  deleteProduto,
 };
