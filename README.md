@@ -74,6 +74,7 @@ Endpoint: /sales/:saleId/products/:productId/quantity Descrição: Atualiza a qu
 
 11.Pesquisar Produtos
 Endpoint: GET /products/search Descrição: Retorna todos os produtos no banco de dados que contenham o termo especificado em seus nomes. Testes: Devem garantir que a pesquisa funcione corretamente, incluindo casos em que nenhum produto seja encontrado.
+
   <h2><strong>Contato</strong></h2>
   <p>Email: fernanda_petrachim@hotmail.com</p>
   <h2><strong>Contribuição</strong></h2>
