@@ -38,7 +38,42 @@
 <code>npm run test:coverage</code>
 
   <h2><strong>Rotas Essenciais e Critérios de Desenvolvimento</strong></h2>
-  <!-- Listagem das rotas essenciais e critérios de desenvolvimento -->
+ Critérios para desenvolvimento:
+
+Explore as rotas essenciais desta API, operações de CRUD e funcionalidades de pesquisa para uma administração eficaz de vendas e produtos.
+
+1.Listar Produtos
+Endpoint: GET /products e GET /products/:id Descrição: GET /products retorna todos os produtos ordenados por ID crescente. GET /products/:id retorna apenas o produto com o ID especificado. Testes: Deve ser testado a funcionalidade de listagem de todos os produtos e de um produto específico.
+
+2.Listar Vendas
+Endpoint: GET /sales e GET /sales/:id Descrição: GET /sales retorna todas as vendas ordenadas por saleId e productId. GET /sales/:id retorna apenas a venda com o ID especificado. Testes: Devem garantir que as vendas sejam realizadas corretamente e que a ordem de classificação seja conforme especificada.
+
+3.Cadastrar Produtos
+Endpoint: POST /products Descrição: Cria um novo produto no banco de dados com base nos dados fornecidos no corpo da requisição. Testes: Devem validar se o produto foi criado corretamente no banco de dados.
+
+4.Validações para o Cadastro de Produtos
+Descrição: Deve retornar mensagens de erro para requisições com dados inválidos. Testes: Devem garantir que as validações ocorram corretamente.
+
+5.Cadastrar Vendas
+Endpoint: POST /sales Descrição: Cria uma nova venda no banco de dados com base nos dados fornecidos no corpo da requisição. Testes: Devem validar se a venda é criada corretamente no banco de dados.
+
+6.Validações para o Cadastro de Vendas
+Descrição: Deve retornar mensagens de erro para requisições com dados inválidos. Testes: Devem garantir que as validações ocorram corretamente.
+
+7.Atualizar um Produto
+Endpoint: PUT /products/:id Descrição: Atualiza as informações de um produto com o ID especificado no banco de dados. Testes: Devem garantir que as informações do produto sejam atualizadas corretamente.
+
+8.Deletar um Produto
+Endpoint: DELETE /products/:id Descrição: Remove um produto com o ID especificado do banco de dados. Testes: Devem garantir que o produto seja removido corretamente do banco de dados.
+
+9.Excluir uma venda
+Endpoint: DELETE /sales/:id Descrição: Remove uma venda com o ID especificado do banco de dados.
+
+10.Atualizar a Quantidade de um Produto em uma Venda
+Endpoint: /sales/:saleId/products/:productId/quantity Descrição: Atualiza a quantidade de um produto vendido na venda especificada.
+
+11.Pesquisar Produtos
+Endpoint: GET /products/search Descrição: Retorna todos os produtos no banco de dados que contenham o termo especificado em seus nomes. Testes: Devem garantir que a pesquisa funcione corretamente, incluindo casos em que nenhum produto seja encontrado.
   <h2><strong>Contato</strong></h2>
   <p>Email: fernanda_petrachim@hotmail.com</p>
   <h2><strong>Contribuição</strong></h2>
