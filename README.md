@@ -2,6 +2,7 @@
 </head>
 <body>
   <h1><strong>Bem-vindo ao repositório do projeto Store Manager API</strong></h1>
+  <image>images-readme/docker.png</image>
   <p>Este projeto faz parte do currículo do curso de Desenvolvimento Full Stack da Trybe. O Store Manager é uma plataforma de gestão de estoque e vendas projetada para ajudar lojas a gerenciar seus produtos e registros de vendas. Ele oferece endpoints para listar, cadastrar, atualizar e excluir produtos e vendas.</p>
   <p>O backend da aplicação foi desenvolvido usando Node.js e Express.js, enquanto o banco de dados utilizado é o MySQL. A aplicação disponibiliza uma API RESTful que permite aos usuários realizar operações CRUD (Create, Read, Update, Delete) em produtos e vendas.</p>
   <h2><strong>Tecnologias Utilizadas</strong></h2>
